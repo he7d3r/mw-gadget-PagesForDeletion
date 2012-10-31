@@ -5,7 +5,7 @@
 if( $.inArray( mw.config.get('wgAction'), ['view', 'purge'] ) !== -1 ){
         $(function(){
                 if( $('#pe-header').length !== 0 ){
-                        importScript( 'MediaWiki:Gadget-PagesForDeletion.js/Core.js' );
+                        mw.loader.load( 'ext.gadget.PagesForDeletionCore' );
                 }
         });
 }
