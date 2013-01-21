@@ -79,7 +79,7 @@ pfd.parse = function( titles ){
 			) + ' na lista).'
 	);
 	$.get(
-// FIXME: action=render was deprecated (https://www.mediawiki.org/wiki/Manual:Parameters_to_index.php?oldid=597288)
+// FIXME: action=render was deprecated (https://www.mediawiki.org/wiki/Manual:Parameters_to_index.php?diff=597288)
 		mw.util.wikiGetlink( titles.shift() ) + '?action=render',
 		function( pageHTML ) {
 			if( titles.length === 0 ){
