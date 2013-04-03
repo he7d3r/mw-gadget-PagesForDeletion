@@ -24,7 +24,7 @@ pfd.generateTOC = function( data ){
 			// http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/resources/mediawiki/mediawiki.util.js?view=markup#l114
 			mw.util.wikiUrlencode( shortTitle ).replace( /\//g, '.2F' ).replace(/%/g, '.') + '">' +
 			shortTitle + '</a></td><td>' +
-			'<a href="' + mw.util.wikiGetlink( rev.user ) + '">' + rev.user + '</a></td><td>' +
+			'<a href="' + mw.util.wikiGetlink( 'Usuário: ' + rev.user ) + '">' + rev.user + '</a></td><td>' +
 			rev.timestamp + '</td></tr>'
 		);
 	}
