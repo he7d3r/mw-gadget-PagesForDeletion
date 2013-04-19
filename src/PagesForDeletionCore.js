@@ -234,7 +234,7 @@ pfd.run = function(){
 		cmtitle: cat,
 		cmprop: 'title|sortkeyprefix',
 		cmlimit: 500,
-		cmsort: 'sortkey', cmstartsortkeyprefix: '201304'
+		cmsort: 'sortkey'
 	}, {
 		ok: pfd.analyseAndFilterCategory
 	} );
