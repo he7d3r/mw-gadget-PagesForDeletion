@@ -24,7 +24,7 @@ pfd.generateTOC = function( data ){
 			// http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/resources/mediawiki/mediawiki.util.js?view=markup#l114
 			mw.util.wikiUrlencode( shortTitle ).replace( /\//g, '.2F' ).replace(/%/g, '.') + '">' +
 			shortTitle + '</a></td><td>' +
-			'<a href="' + mw.util.wikiGetlink( 'Usuário: ' + rev.user ) + '">' + rev.user + '</a></td><td>' +
+			'<a href="' + mw.util.getUrl( 'Usuário: ' + rev.user ) + '">' + rev.user + '</a></td><td>' +
 			rev.timestamp + '</td></tr>'
 		);
 	}
@@ -80,7 +80,7 @@ pfd.parse = function( titles ){
 	);
 	$.get(
 // FIXME: action=render was deprecated (https://www.mediawiki.org/wiki/Manual:Parameters_to_index.php?diff=597288)
-		mw.util.wikiGetlink( titles.shift() ) + '?action=render',
+		mw.util.getUrl( titles.shift() ) + '?action=render',
 		function( pageHTML ) {
 			if( titles.length === 0 ){
 				pfd.$calendar
@@ -206,7 +206,7 @@ pfd.run = function(){
 						$.datepicker.formatDate( 'dd', date ) + ' de ' +
 						months[ parseInt( $.datepicker.formatDate( 'm', date ), 10 ) - 1 ];
 					msg += 'Tente novamente ou utilize a <a href="' +
-						mw.util.wikiGetlink(cat) + '">' + cat +
+						mw.util.getUrl(cat) + '">' + cat +
 						'</a> enquanto o problema persistir.';
 				}
 				pfd.$info.html( msg );
@@ -226,7 +226,7 @@ pfd.run = function(){
 		).after( pfd.$info ).before( pfd.$toc );
 	}
 	pfd.$info.injectSpinner('pfd');
-	pfd.$info.html( 'Consultando a <a href="' + mw.util.wikiGetlink(cat) + '">' + cat + '</a>...' );
+	pfd.$info.html( 'Consultando a <a href="' + mw.util.getUrl(cat) + '">' + cat + '</a>...' );
 	pfd.api.get( {
 		action: 'query',
 		list: 'categorymembers',
@@ -253,7 +253,7 @@ pfd.run = function(){
 				pfd.$info.injectSpinner('pfd');
 				pfd.filter( formattedDate );
 			} else {
-				window.location.href = mw.util.wikiGetlink( 'Wikipédia:Páginas para eliminar/Lista' ) +
+				window.location.href = mw.util.getUrl( 'Wikipédia:Páginas para eliminar/Lista' ) +
 					'?data=' + formattedDate;
 			}
 		},
