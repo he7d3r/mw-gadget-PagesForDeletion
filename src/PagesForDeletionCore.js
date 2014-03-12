@@ -44,7 +44,7 @@ pfd.getDataForTOC = function( list ){
 	pfd.api.get( {
 		action: 'query',
 		prop: 'revisions',
-		rvprop: 'timestamp|user', //|size
+		rvprop: 'timestamp|user', // |size
 		titles: list.join('|'),
 		indexpageids: true
 	}, {
@@ -79,7 +79,6 @@ pfd.parse = function( titles ){
 			) + ' na lista).'
 	);
 	$.get(
-// FIXME: action=render was deprecated (https://www.mediawiki.org/wiki/Manual:Parameters_to_index.php?diff=597288)
 		mw.util.getUrl( titles.shift() ) + '?action=render',
 		function( pageHTML ) {
 			if( titles.length === 0 ){
