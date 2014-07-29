@@ -4,7 +4,7 @@
  */
 /*jslint browser: true, white: true, plusplus: true */
 /*global jQuery, mediaWiki */
-( function ( $, mw /* , undefined */ ) {
+( function ( $, mw ) {
 'use strict';
 
 var pfd;
@@ -47,9 +47,7 @@ pfd.getDataForTOC = function( list ){
 		rvprop: 'timestamp|user', // |size
 		titles: list.join('|'),
 		indexpageids: true
-	}, {
-		ok: pfd.generateTOC
-	} );
+	} ).done( pfd.generateTOC );
 };
 
 pfd.show = function( html ){
@@ -234,9 +232,7 @@ pfd.run = function(){
 		cmprop: 'title|sortkeyprefix',
 		cmlimit: 500,
 		cmsort: 'sortkey'
-	}, {
-		ok: pfd.analyseAndFilterCategory
-	} );
+	} ).done( pfd.analyseAndFilterCategory );
 	mw.util.addCSS('#calendar .ui-datepicker {margin: 0 auto;} .top-1 { background-color: #f66; } .top-2 { background-color: #ff6; }');
 	pfd.$calendar = $('#calendar').empty();
 	pfd.$calendar.datepicker({
