@@ -8,13 +8,13 @@
 'use strict';
 
 var pfd;
-if( typeof pfd === 'undefined' ) {
+if ( typeof pfd === 'undefined' ) {
 
 pfd = {};
-pfd.generateTOC = function( data ){
+pfd.generateTOC = function ( data ) {
 	var	page, shortTitle, rev, i, l,
 		toc = [];
-	for(i=0, l=data.query.pageids.length; i< l; i++){
+	for (i = 0, l = data.query.pageids.length; i < l; i++) {
 		page = data.query.pages[ data.query.pageids[i] ];
 		shortTitle = page.title.substr(32); // 'Wikipédia:Páginas para eliminar/'.length
 		rev = page.revisions[0];
@@ -40,7 +40,7 @@ pfd.generateTOC = function( data ){
 	).find('table').tablesorter();
 };
 
-pfd.getDataForTOC = function( list ){
+pfd.getDataForTOC = function ( list ) {
 	pfd.api.get( {
 		action: 'query',
 		prop: 'revisions',
@@ -50,20 +50,20 @@ pfd.getDataForTOC = function( list ){
 	} ).done( pfd.generateTOC );
 };
 
-pfd.show = function( html ){
+pfd.show = function ( html ) {
 	var target;
 	pfd.$target.append( html );
 	$('#toc').remove();
 
 	/* Add popups compatibility */
 	target = pfd.$target.get(0);
-	if( $.isFunction( window.setupTooltips ) ){
+	if ( $.isFunction( window.setupTooltips ) ) {
 		target.ranSetupTooltipsAlready = false;
 		window.setupTooltips( target );
 	}
 };
 
-pfd.parse = function( titles ){
+pfd.parse = function ( titles ) {
 	pfd.$info.html(
 		'Consultando a proposta de eliminação da página "' +
 			titles[0].substr(32) + // 'Wikipédia:Páginas para eliminar/'.length === 32
@@ -78,8 +78,8 @@ pfd.parse = function( titles ){
 	);
 	$.get(
 		mw.util.getUrl( titles.shift() ) + '?action=render',
-		function( pageHTML ) {
-			if( titles.length === 0 ){
+		function ( pageHTML ) {
+			if ( titles.length === 0 ) {
 				pfd.$calendar
 					.datepicker( 'enable' )
 					.datepicker( 'refresh' );
@@ -93,19 +93,19 @@ pfd.parse = function( titles ){
 	);
 };
 
-pfd.filter = function( date ){
+pfd.filter = function ( date ) {
 	var	today = $.datepicker.formatDate('yymmdd', new Date() );
 	pfd.selectedDate = date || mw.util.getParamValue('data') || today;
 	pfd.selectedPages = [];
 	/*jslint unparam: true*/
-	$.each(pfd.allPages, function(i, page){
-		if ( page.sortkeyprefix === pfd.selectedDate ){
+	$.each(pfd.allPages, function (i, page) {
+		if ( page.sortkeyprefix === pfd.selectedDate ) {
 			pfd.selectedPages.push( page.title );
 		}
 	});
 	/*jslint unparam: false*/
 	pfd.numberOfPagesToShow = pfd.selectedPages.length;
-	if( pfd.numberOfPagesToShow === 0 ){
+	if ( pfd.numberOfPagesToShow === 0 ) {
 		pfd.$info.html(
 			'Nenhuma das votações de páginas propostas para eliminação termina em ' +
 				$.datepicker.formatDate(
@@ -121,13 +121,13 @@ pfd.filter = function( date ){
 	}
 	pfd.$info.html(
 		'Obtendo o conteúdo de ' + pfd.selectedPages.length +
-			(pfd.selectedPages.length !== 1? ' propostas' : ' proposta' ) + ' de eliminação...'
+			(pfd.selectedPages.length !== 1 ? ' propostas' : ' proposta' ) + ' de eliminação...'
 	);
 	pfd.getDataForTOC( pfd.selectedPages );
 	pfd.parse( pfd.selectedPages );
 };
 
-pfd.beforeShowDay = function( date ) {
+pfd.beforeShowDay = function ( date ) {
 	var pages;
 	if ( typeof pfd.total === 'undefined' ) {
 		return [ true, '' ];
@@ -141,20 +141,20 @@ pfd.beforeShowDay = function( date ) {
 				? 'top-2'
 				: '',
 		pages
-			? pages + (pages !== 1? ' votações terminam' : ' votação termina' ) + ' neste dia'
+			? pages + (pages !== 1 ? ' votações terminam' : ' votação termina' ) + ' neste dia'
 			: 'Nenhuma votação termina neste dia'
 	];
 };
 
-pfd.analyseAndFilterCategory = function( data ){
+pfd.analyseAndFilterCategory = function ( data ) {
 	var reDays = /\d+ de (?:(?:jan|fever)eiro|março|abril|maio|ju[nl]ho|agosto|(?:outu|(?:set|nov|dez)em)bro)$/g;
 	pfd.total = {};
-	pfd.allPages = $.grep( data.query.categorymembers, function(n){
-		if( reDays.test( n.title ) ){
+	pfd.allPages = $.grep( data.query.categorymembers, function (n) {
+		if ( reDays.test( n.title ) ) {
 			// This is a page from old system, and is not used for voting
 			return false;
 		}
-		if( typeof pfd.total[ n.sortkeyprefix ] === 'undefined' ) {
+		if ( typeof pfd.total[ n.sortkeyprefix ] === 'undefined' ) {
 			pfd.total[ n.sortkeyprefix ] = 1;
 		} else {
 			pfd.total[ n.sortkeyprefix ]++;
@@ -162,13 +162,13 @@ pfd.analyseAndFilterCategory = function( data ){
 		return true;
 	});
 	// Get quantities, discarding the dates
-	pfd.orderedTotals = $.map( pfd.total, function( quantity /*, date */ ) {
+	pfd.orderedTotals = $.map( pfd.total, function ( quantity /*, date */ ) {
 		return quantity;
-	}).sort(function (a,b){
+	}).sort(function (a, b) {
 		return b - a; // Descending order
 	});
 
-	if( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ){
+	if ( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ) {
 		pfd.$calendar
 			.datepicker( 'disable' )
 			.datepicker( 'refresh' );
@@ -181,12 +181,12 @@ pfd.analyseAndFilterCategory = function( data ){
 	}
 };
 
-pfd.run = function(){
+pfd.run = function () {
 	var	cat = 'Categoria:!Itens propostos para eliminação',
 		urlDate = mw.util.getParamValue('data');
 	pfd.api = new mw.Api({
 		ajax: {
-			err: function( code, result ){
+			err: function ( code, result ) {
 				var	msg = 'Houve um erro ao usar a API (code=' + code +
 						', exception=' + result.exception +
 						', textStatus=' + result.textStatus + '). ',
@@ -198,7 +198,7 @@ pfd.run = function(){
 						'outubro', 'novembro', 'dezembro'
 					],
 					cat;
-				if (pfd.selectedDate){
+				if (pfd.selectedDate) {
 					cat = 'Categoria:Itens candidatos à eliminação/' +
 						$.datepicker.formatDate( 'dd', date ) + ' de ' +
 						months[ parseInt( $.datepicker.formatDate( 'm', date ), 10 ) - 1 ];
@@ -215,7 +215,7 @@ pfd.run = function(){
 		}
 	});
 	pfd.$target = $('#pfd-content');
-	if( pfd.$target.length === 0 ){
+	if ( pfd.$target.length === 0 ) {
 		pfd.$info = $('<div id="pfd-info"></div>');
 		pfd.$toc = $('<div id="custom-toc"></div>');
 		pfd.$target = $( '<div id="pfd-content"></div>' ).appendTo(
@@ -236,10 +236,10 @@ pfd.run = function(){
 	mw.util.addCSS('#calendar .ui-datepicker {margin: 0 auto;} .top-1 { background-color: #f66; } .top-2 { background-color: #ff6; }');
 	pfd.$calendar = $('#calendar').empty();
 	pfd.$calendar.datepicker({
-		onSelect: function(dateText /*, inst */ ) {
+		onSelect: function (dateText /*, inst */ ) {
 			var	date = $.datepicker.parseDate('dd/mm/yy', dateText),
 				formattedDate = $.datepicker.formatDate('yymmdd', date );
-			if( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ){
+			if ( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ) {
 				pfd.$calendar
 					.datepicker( 'disable' )
 					.datepicker( 'refresh' );
@@ -254,14 +254,14 @@ pfd.run = function(){
 		},
 		beforeShowDay: pfd.beforeShowDay
 	});
-	if ( urlDate ){
+	if ( urlDate ) {
 		pfd.$calendar.datepicker('setDate', $.datepicker.parseDate('yymmdd', urlDate) );
 	}
 };
 
-if( $.inArray( mw.config.get('wgAction'), ['view', 'purge'] ) !== -1 ){
-	$(function(){
-		if( $('#pe-header').length !== 0 ){
+if ( $.inArray( mw.config.get('wgAction'), ['view', 'purge'] ) !== -1 ) {
+	$(function () {
+		if ( $('#pe-header').length !== 0 ) {
 			mw.loader.using([
 				'mediawiki.api',
 				'jquery.spinner',
