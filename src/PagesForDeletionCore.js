@@ -19,7 +19,10 @@ pfd.generateTOC = function ( data ) {
 		shortTitle = page.title.substr(32); // 'Wikipédia:Páginas para eliminar/'.length
 		rev = page.revisions[0];
 		toc.push(
-			'<tr><td><a href="#' +
+			'<tr><td>'+
+			'(<a href="' + mw.util.wikiGetlink( page.title ) + '">ver</a>' +
+			'/<a href="' + mw.util.wikiGetlink( page.title ) + '?action=edit">editar</a>) ' +
+			'<a href="#' +
 			// Ver http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Sanitizer.php?view=markup#l1056
 			// http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/resources/mediawiki/mediawiki.util.js?view=markup#l114
 			mw.util.wikiUrlencode( shortTitle ).replace( /\//g, '.2F' ).replace(/%/g, '.') + '">' +
