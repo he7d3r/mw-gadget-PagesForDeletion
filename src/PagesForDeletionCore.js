@@ -20,8 +20,10 @@ pfd.generateTOC = function ( data ) {
 		rev = page.revisions[0];
 		toc.push(
 			'<tr><td>'+
+			'<small>' +
 			'(<a href="' + mw.util.wikiGetlink( page.title ) + '">ver</a>' +
 			'/<a href="' + mw.util.wikiGetlink( page.title ) + '?action=edit">editar</a>) ' +
+			'</small>' +
 			'<a href="#' +
 			// Ver http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/includes/Sanitizer.php?view=markup#l1056
 			// http://svn.wikimedia.org/viewvc/mediawiki/trunk/phase3/resources/mediawiki/mediawiki.util.js?view=markup#l114
