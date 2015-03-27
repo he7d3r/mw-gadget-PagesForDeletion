@@ -1,6 +1,8 @@
+// [[File:User:He7d3r/Tools/PagesForDeletion.js]] (workaround for [[phab:T35355]])
 /**
  * Get list of pages for deletion on a given date
- * @author: [[User:Helder.wiki]]
+ * @author: Helder (https://github.com/he7d3r)
+ * @license: CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0/>
  */
 /*jslint browser: true, white: true, plusplus: true */
 /*global jQuery, mediaWiki */
