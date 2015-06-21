@@ -255,7 +255,7 @@ pfd.run = function () {
 				pfd.$info.injectSpinner('pfd');
 				pfd.filter( formattedDate );
 			} else {
-				window.location.href = mw.util.getUrl( 'Wikipédia:Páginas para eliminar/Lista' ) +
+				location.href = mw.util.getUrl( 'Wikipédia:Páginas para eliminar/Lista' ) +
 					'?data=' + formattedDate;
 			}
 		},
