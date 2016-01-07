@@ -84,7 +84,11 @@ pfd.parse = function ( titles ) {
 			) + ' na lista).'
 	);
 	$.get(
-		mw.util.getUrl( titles.shift(), { action: 'render' } ),
+		// Do not use mw.util.getUrl until [[phab:T123062]] is fixed
+		mw.config.get( 'wgScript' ) + $.param( {
+			title: titles.shift(),
+			action: 'render'
+		} ),
 		function ( pageHTML ) {
 			if ( titles.length === 0 ) {
 				pfd.$calendar
