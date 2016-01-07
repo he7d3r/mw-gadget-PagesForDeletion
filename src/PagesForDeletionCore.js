@@ -85,7 +85,7 @@ pfd.parse = function ( titles ) {
 	);
 	$.get(
 		// Do not use mw.util.getUrl until [[phab:T123062]] is fixed
-		mw.config.get( 'wgScript' ) + $.param( {
+		mw.config.get( 'wgScript' ) + '?' + $.param( {
 			title: titles.shift(),
 			action: 'render'
 		} ),
