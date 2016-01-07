@@ -84,7 +84,7 @@ pfd.parse = function ( titles ) {
 			) + ' na lista).'
 	);
 	$.get(
-		mw.util.getUrl( titles.shift() ) + '?action=render',
+		mw.util.getUrl( titles.shift(), { action: 'render' } ),
 		function ( pageHTML ) {
 			if ( titles.length === 0 ) {
 				pfd.$calendar
