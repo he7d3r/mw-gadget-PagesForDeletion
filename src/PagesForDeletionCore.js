@@ -276,7 +276,7 @@ if ( $.inArray( mw.config.get('wgAction'), ['view', 'purge'] ) !== -1 ) {
 			mw.loader.using([
 				'mediawiki.api',
 				'jquery.spinner',
-				'jquery.ui.datepicker',
+				'jquery.ui',
 				'jquery.tablesorter'
 			], pfd.run);
 		}
