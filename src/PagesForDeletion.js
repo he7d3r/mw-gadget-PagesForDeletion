@@ -1,4 +1,3 @@
-// [[File:User:He7d3r/Tools/PagesForDeletion.js]] (workaround for [[phab:T35355]])
 /**
  * Get list of pages for deletion on a given date
  * @author: Helder (https://github.com/he7d3r)
