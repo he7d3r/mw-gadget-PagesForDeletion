@@ -63,7 +63,7 @@ pfd.show = function ( html ) {
 
 	/* Add popups compatibility */
 	target = pfd.$target.get(0);
-	if ( $.isFunction( window.setupTooltips ) ) {
+	if ( typeof window.setupTooltips === "function" ) {
 		target.ranSetupTooltipsAlready = false;
 		window.setupTooltips( target );
 	}
