@@ -196,6 +196,29 @@ pfd.analyseAndFilterCategory = function ( data ) {
 	}
 };
 
+pfd.changeDate = function ( formattedDate ) {
+	pfd.$calendar
+		.datepicker( 'disable' )
+		.datepicker( 'refresh' );
+	pfd.$target.empty();
+	pfd.$toc.empty();
+	pfd.$info.injectSpinner('pfd');
+	pfd.filter( formattedDate );
+};
+
+pfd.updateUrl = function ( formattedDate ) {
+	if ( !window.history || !history.pushState ) {
+		return;
+	}
+	if ( formattedDate !== pfd.selectedDate ) {
+		history.pushState(
+			{ pfdDate: formattedDate },
+			'',
+			mw.util.getUrl( 'Wikipédia:Páginas para eliminar/Lista', { data: formattedDate } )
+		);
+	}
+};
+
 pfd.run = function () {
 	var	cat = 'Categoria:!Itens propostos para eliminação',
 		urlDate = mw.util.getParamValue('data');
@@ -255,13 +278,8 @@ pfd.run = function () {
 			var	date = $.datepicker.parseDate('dd/mm/yy', dateText),
 				formattedDate = $.datepicker.formatDate('yymmdd', date );
 			if ( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ) {
-				pfd.$calendar
-					.datepicker( 'disable' )
-					.datepicker( 'refresh' );
-				pfd.$target.empty();
-				pfd.$toc.empty();
-				pfd.$info.injectSpinner('pfd');
-				pfd.filter( formattedDate );
+				pfd.updateUrl( formattedDate );
+				pfd.changeDate( formattedDate );
 			} else {
 				location.href = mw.util.getUrl( 'Wikipédia:Páginas para eliminar/Lista' ) +
 					'?data=' + formattedDate;
@@ -272,6 +290,17 @@ pfd.run = function () {
 	});
 	if ( urlDate ) {
 		pfd.$calendar.datepicker('setDate', $.datepicker.parseDate('yymmdd', urlDate) );
+	}
+	if ( mw.config.get('wgPageName') === 'Wikipédia:Páginas_para_eliminar/Lista' ) {
+		$( window ).on( 'popstate', function () {
+			var	wanted = mw.util.getParamValue('data') ||
+					$.datepicker.formatDate('yymmdd', pfd.getUTCDate() );
+			if ( !pfd.allPages || wanted === pfd.selectedDate ) {
+				return;
+			}
+			pfd.$calendar.datepicker( 'setDate', $.datepicker.parseDate('yymmdd', wanted) );
+			pfd.changeDate( wanted );
+		});
 	}
 };
 
